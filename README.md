@@ -43,7 +43,7 @@ whatever intended text box. But that's probably fine!
 # what the heck are these files?
 
 The two header files encompass everything necessary.
-You just need to #include them in whatever c++ program
+You just need to `#include` them in whatever c++ program
 you are writing and it will work.
 
 initially when experimenting I wrote everything in one file
@@ -89,7 +89,6 @@ There are several helpers to draw shapes.
 draw a filled rectangle:
 
 `rect(x, y, w, h, r, g, b)` where (x,y) is the top left corner
-
 and (r,g,b) is the fill color
 
 
@@ -171,3 +170,6 @@ That's really most of what this graphics "library" does. Have fun!
 
 Feel free to look at the demo programs if you aren't sure how to use
 stuff here. They *should* be decently commented out.
+
+And, if you're coming here trying to learn how to mess around with the
+linux framebuffer for direct rendering, I hope this helps!
