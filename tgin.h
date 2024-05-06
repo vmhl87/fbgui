@@ -1,16 +1,16 @@
-#include <iostream>
-#include <cstring>
-#include <cstdarg>
-#include <cstdio>
+// necessary headers for input/output and string ops
+#include <string.h>
+#include <stdarg.h>
+#include <stdio.h>
 
 const int W_CHARS = 170,
 		  H_CHARS = 48,
 		  W_CHAR = 8,
 		  H_CHAR = 16;
 
-bool _curs_show = 1;
+int _curs_show = 1;
 
-void curs_set(bool s){
+void curs_set(int s){
 	_curs_show = s;
 	printf("\033[?25");
 	if(s) printf("h");
@@ -29,18 +29,15 @@ void center(const char *s, int x, int y){
 	fflush(stdout);
 }
 
-void center(const char *s){
+void xcenter(const char *s){
 	center(s, W_CHARS/2, H_CHARS/2);
 }
 
-void center(std::string s){
-	center(s.c_str());
-}
-
-std::string gets(){
-	std::string ret;
-	getline(std::cin, ret);
-	return ret;
+ssize_t gets(char **str){
+	size_t len;
+	ssize_t chr = getline(str, &len, stdin);
+	if(chr && (*str)[chr-1] == '\n') (*str)[--chr] = '\0';
+	return chr;
 }
 
 const int NONE = 0,
@@ -57,7 +54,7 @@ const int NONE = 0,
 		  CYAN = 36,
 		  WHITE = 37;
 
-constexpr int BG(const int c){
+int BG(const int c){
 	return c + 10;
 }
 
@@ -66,19 +63,19 @@ void attr(int s){
 	fflush(stdout);
 }
 
-std::string text_box(int x, int y, int w, const char *prompt){
+ssize_t xtext_box(char **str, int x, int y, int w, const char *prompt){
 	move(x, y);
 	printf(prompt);
 	w -= strlen(prompt);
 	while(w--) printf(" ");
 	move(x+strlen(prompt), y);
-	bool _curs = _curs_show;
+	int _curs = _curs_show;
 	curs_set(1);
-	std::string ret = gets();
+	ssize_t len = gets(str);
 	curs_set(_curs);
-	return ret;
+	return len;
 }
 
-std::string text_box(int x, int y, int w){
-	return text_box(x, y, w, "");
+ssize_t text_box(char **str, int x, int y, int w){
+	return xtext_box(str, x, y, w, "");
 }

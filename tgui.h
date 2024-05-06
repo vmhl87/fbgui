@@ -81,6 +81,7 @@ void _vline(int x, int y1, int y2, int r, int g, int b){
 
 // arbitrary line - more overhead than hline or vline
 void line(int x1, int y1, int x2, int y2, int r, int g, int b){
+	// uses bresenham
 	int dx = abs(x2 - x1),
 		sx = x1 < x2 ? 1 : -1,
 		dy = -abs(y2 - y1),
@@ -107,44 +108,6 @@ void line(int x1, int y1, int x2, int y2, int r, int g, int b){
 	}
 }
 
-/*
-plotLine(x0, y0, x1, y1)
-    dx = abs(x1 - x0)
-    sx = x0 < x1 ? 1 : -1
-    dy = -abs(y1 - y0)
-    sy = y0 < y1 ? 1 : -1
-    error = dx + dy
-    
-    while true
-        plot(x0, y0)
-        if x0 == x1 && y0 == y1 break
-        e2 = 2 * error
-        if e2 >= dy
-            if x0 == x1 break
-            error = error + dy
-            x0 = x0 + sx
-        end if
-        if e2 <= dx
-            if y0 == y1 break
-            error = error + dx
-            y0 = y0 + sy
-        end if
-    end while
-plotLine(x0, y0, x1, y1)
-    dx = x1 - x0
-    dy = y1 - y0
-    D = 2*dy - dx
-    y = y0
-
-    for x from x0 to x1
-        plot(x, y)
-        if D > 0
-            y = y + 1
-            D = D - 2*dx
-        end if
-        D = D + 2*dy
-*/
-
 // store 8-bit color in 32-bit int
 union color{
 	int a;
@@ -152,13 +115,13 @@ union color{
 };
 
 // convert int into color union
-color to_color(int i){
-	color r; r.a = i;
+union color _to_color(int i){
+	union color r; r.a = i;
 	return r;
 }
 
 // convert r,g,b triplet into int
-constexpr int to_color(int r, int g, int b){
+int to_color(int r, int g, int b){
 	return (r&255) | (g&255)<<8 | (b&255)<<16;
 }
 
@@ -171,7 +134,7 @@ void shade(int x, int y, int w, int h, int (*col)(int, int)){
 	char *cell = fbdata + x*bytes + y*linel;
 	for(int i=0; i<h; ++i){
 		for(int j=0; j<w; ++j){
-			color clr = to_color(col(x+j, y+i));
+			union color clr = _to_color(col(x+j, y+i));
 			*(cell++) = clr.b[2];
 			*(cell++) = clr.b[1];
 			*(cell++) = clr.b[0];

@@ -36,13 +36,15 @@ int main(){
 
 	// make a text box!
 	attr(BG(WHITE)); attr(BLACK);
-	std::string s = text_box(20, 10, 60, "enter anything here: ");
+	char *s;
+	xtext_box(&s, 20, 10, 60, "enter anything here: ");
 	attr(NONE);
 
 	// make another text box, and read two integers
 	attr(CYAN);
-	std::string c = text_box(60, 12, 20, "coords: ");
-	int x = 60, y = 30; sscanf(c.c_str(), "%d %d", &x, &y);
+	char *c;
+	xtext_box(&c, 60, 12, 20, "coords: ");
+	int x = 60, y = 30; sscanf(c, "%d %d", &x, &y);
 	attr(NONE);
 
 	// say "hello" at those coords entered
@@ -76,5 +78,5 @@ int main(){
 	curs_set(1);
 
 	// print out everything inputted for debug
-	printf("1: '%s'\nx: '%d'\ny: '%d'\n", s.c_str(), x, y);
+	printf("1: '%s'\nx: '%d'\ny: '%d'\n", s, x, y);
 }

@@ -47,8 +47,8 @@ You just need to `#include` them in whatever c++ program
 you are writing and it will work.
 
 initially when experimenting I wrote everything in one file
-(`poc.c`) and without any c++ features like `std::string`. It
-has some basic shading and drawing.
+(`poc.c`) and without any input/output. It has some basic
+shading and drawing.
 
 I migrated the main rendering code onto `tgui.h`, and at that
 point started tackling the issue of input/output. For that I
@@ -150,8 +150,8 @@ of the constants in `tgin.h`.
 
 You can print out a centered string of text with:
 
-`center(s, x, y)`, or if `x` and `y` are ommitted, at the center
-of the screen.
+`center(s, x, y)` where `x` and `y` are the coordinates of the box,
+or `xcenter(s)` to draw in the center of the screen.
 
 The coordinates are represented not in pixels but in characters.
 These are probably personalized to your device, but on my laptop there are
@@ -161,8 +161,12 @@ is `W_CHAR` x `H_CHAR` in dimensions. (These are also constants in `tgin.h`)
 
 You can place a text box at an arbitrary location:
 
-`text_box(x, y, width, prompt)` where `prompt` is optionally a character
-literal. It returns the string entered by the user.
+`text_box(s, x, y, width)` or `xtext_box(s, x, y, width, prompt)` where `s`
+is a pointer to a character array (c-string) and `prompt` is an optional
+prompt.
+
+Alternatively, open an input instance at the cursor location with
+`gets(s)` where `s` is a pointer to a c-string.
 
 
 That's really most of what this graphics "library" does. Have fun!
