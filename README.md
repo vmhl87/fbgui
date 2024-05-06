@@ -142,7 +142,7 @@ You can manually reposition the cursor to an arbitrary position with
 There are wrappers for ANSI colors/attributes/etc:
 
 `attr(attribute)` where attribute is one of `BOLD`, `NONE`, `BLACK`,
-`GREEN`, etc. (find these at line 46 of `tgin.h`)
+`GREEN`, etc. (find these at the top of `tgin.h`)
 
 to set a background color call `attr(BG(color))` where `color` is one
 of the constants in `tgin.h`.

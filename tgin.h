@@ -3,43 +3,13 @@
 #include <stdarg.h>
 #include <stdio.h>
 
+// constants for terminal dimensions
 const int W_CHARS = 170,
 		  H_CHARS = 48,
 		  W_CHAR = 8,
 		  H_CHAR = 16;
 
-int _curs_show = 1;
-
-void curs_set(int s){
-	_curs_show = s;
-	printf("\033[?25");
-	if(s) printf("h");
-	else printf("l");
-	fflush(stdout);
-}
-
-void move(int x, int y){
-	printf("\033[%d;%dH", y, x);
-	fflush(stdout);
-}
-
-void center(const char *s, int x, int y){
-	move(x - strlen(s)/2 + 1, y);
-	printf("%s", s);
-	fflush(stdout);
-}
-
-void xcenter(const char *s){
-	center(s, W_CHARS/2, H_CHARS/2);
-}
-
-ssize_t gets(char **str){
-	size_t len;
-	ssize_t chr = getline(str, &len, stdin);
-	if(chr && (*str)[chr-1] == '\n') (*str)[--chr] = '\0';
-	return chr;
-}
-
+// color constants
 const int NONE = 0,
 		  BOLD = 1,
 		  FAINT = 2,
@@ -54,15 +24,57 @@ const int NONE = 0,
 		  CYAN = 36,
 		  WHITE = 37;
 
+// cursor state
+int _curs_show = 1;
+
+// set cursor state
+void curs_set(int s){
+	_curs_show = s;
+	printf("\033[?25");
+	if(s) printf("h");
+	else printf("l");
+	fflush(stdout);
+}
+
+// move cursor
+void move(int x, int y){
+	printf("\033[%d;%dH", y, x);
+	fflush(stdout);
+}
+
+// print centered text
+void center(const char *s, int x, int y){
+	move(x - strlen(s)/2 + 1, y);
+	printf("%s", s);
+	fflush(stdout);
+}
+
+// absolutely centered text
+void xcenter(const char *s){
+	center(s, W_CHARS/2, H_CHARS/2);
+}
+
+// get string (raw input)
+ssize_t gets(char **str){
+	size_t len;
+	ssize_t chr = getline(str, &len, stdin);
+	// clip ending newline if exists
+	if(chr && (*str)[chr-1] == '\n') (*str)[--chr] = '\0';
+	return chr;
+}
+
+// backgroundify
 int BG(const int c){
 	return c + 10;
 }
 
+// apply text attribute
 void attr(int s){
 	printf("\033[%dm", s);
 	fflush(stdout);
 }
 
+// draw text box with prompt
 ssize_t xtext_box(char **str, int x, int y, int w, const char *prompt){
 	move(x, y);
 	printf(prompt);
@@ -76,6 +88,7 @@ ssize_t xtext_box(char **str, int x, int y, int w, const char *prompt){
 	return len;
 }
 
+// draw text box without prompt
 ssize_t text_box(char **str, int x, int y, int w){
 	return xtext_box(str, x, y, w, "");
 }
