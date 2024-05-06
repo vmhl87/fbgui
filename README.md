@@ -173,3 +173,9 @@ stuff here. They *should* be decently commented out.
 
 And, if you're coming here trying to learn how to mess around with the
 linux framebuffer for direct rendering, I hope this helps!
+
+## screenshots!
+
+![poc](assets/poc.png)
+
+![demo](assets/demo.png)
