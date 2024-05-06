@@ -167,3 +167,7 @@ literal. It returns the string entered by the user.
 
 
 That's really most of what this graphics "library" does. Have fun!
+
+
+Feel free to look at the demo programs if you aren't sure how to use
+stuff here. They *should* be decently commented out.

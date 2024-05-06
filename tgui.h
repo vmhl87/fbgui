@@ -21,6 +21,7 @@ void sleepms(int t){
 
 // open framebuffer device, memory map, get dimensions
 void openfb(){
+	// this might be different on other machines. Not sure.
 	fb = open("/dev/fb0", O_RDWR);
 	if(fb < 0) return;
 	struct fb_var_screeninfo vinfo;

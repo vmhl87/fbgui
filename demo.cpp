@@ -1,44 +1,57 @@
+// import libraries + stdlib for random
 #include <stdlib.h>
 #include "tgui.h"
 #include "tgin.h"
 
+// dithering shader function
 int speckle(int x, int y){
 	if((x/2^y/2)&1) return 0;
 	return (1<<24) - 1;
 }
 
+// background shader function - draws gradient
 int bg(int x, int y){
 	return to_color((255*y)/height, (255*x)/width, 100);
 }
 
 int main(){
+	// hide cursor, clear screen, open framebuffer
 	curs_set(0);
 	system("clear");
 	openfb();
 
+	// shade background with gradient shader (leave margin because
+	// of textual overflow from inputs)
 	shade(10, 10, width-20, height-20, bg);
 
+	// draw a random rectangle because why not
 	rect(0, 224, 72, 16, 100, 100, 180);
 
+	// draw some text because why not
 	move(0, 15);
+	// colored black with white background
 	attr(BG(WHITE)); attr(BLACK);
 	printf("12345678");
 	attr(NONE);
 
+	// make a text box!
 	attr(BG(WHITE)); attr(BLACK);
 	std::string s = text_box(20, 10, 60, "enter anything here: ");
 	attr(NONE);
 
+	// make another text box, and read two integers
 	attr(CYAN);
 	std::string c = text_box(60, 12, 20, "coords: ");
 	int x = 60, y = 30; sscanf(c.c_str(), "%d %d", &x, &y);
 	attr(NONE);
 
+	// say "hello" at those coords entered
 	move(x, y);
 	attr(BG(CYAN)); attr(BLACK);
 	printf("hello!");
 	attr(NONE);
 
+	// draw a lot of random boxes because why not
 	srand(time(NULL));
 	int lx = 0, ly = 0;
 	for(int i=0; i<10; ++i){
@@ -54,11 +67,14 @@ int main(){
 		sleepms(500);
 	}
 
+	// clear framebuffer
 	blank();
 
+	// close framebuffer, clear screen, show cursor
 	closefb();
 	system("clear");
 	curs_set(1);
 
+	// print out everything inputted for debug
 	printf("1: '%s'\nx: '%d'\ny: '%d'\n", s.c_str(), x, y);
 }
