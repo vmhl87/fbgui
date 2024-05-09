@@ -2,12 +2,28 @@
 #include <string.h>
 #include <stdarg.h>
 #include <stdio.h>
+#include "tgui.h"
 
 // constants for terminal dimensions
-const int W_CHARS = 170,
-		  H_CHARS = 48,
-		  W_CHAR = 8,
-		  H_CHAR = 16;
+int W_CHARS = 170,
+	H_CHARS = 48,
+	W_CHAR = 8,
+	H_CHAR = 16;
+
+void detect_term(){
+	blank();
+	move(0, 0);
+	attr(NONE); attr(BOLD); attr(WHITE);
+	printf("\u2588");
+	attr(NONE);
+	char *pt = fbdata;
+	W_CHAR = 0;
+	while(*pt == -1) pt += 4, ++W_CHAR;
+	pt = fbdata;
+	H_CHAR = 0;
+	while(*pt == -1) pt += linel, ++H_CHAR;
+	blank();
+}
 
 // color constants
 const int NONE = 0,
@@ -59,7 +75,7 @@ ssize_t gets(char **str){
 	size_t len;
 	ssize_t chr = getline(str, &len, stdin);
 	// clip ending newline if exists
-	if(chr && (*str)[chr-1] == '\n') (*str)[--chr] = '\0';
+	if(chr && (*str)[chr-1] == '\n') (*str)[--chr] = 0;
 	return chr;
 }
 
