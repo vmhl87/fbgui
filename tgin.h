@@ -18,10 +18,10 @@ void detect_term(){
 	attr(NONE);
 	char *pt = fbdata;
 	W_CHAR = 0;
-	while(*pt == -1) pt += 4, ++W_CHAR;
+	while(*pt != 0) pt += 4, ++W_CHAR;
 	pt = fbdata;
 	H_CHAR = 0;
-	while(*pt == -1) pt += linel, ++H_CHAR;
+	while(*pt != 0) pt += linel, ++H_CHAR;
 	blank();
 }
 
