@@ -110,7 +110,7 @@ void line(int x1, int y1, int x2, int y2, int r, int g, int b){
 
 // store 8-bit color in 32-bit int
 union color{
-	int a;
+	uint32_t a;
 	char b[4];
 };
 

@@ -2,28 +2,12 @@
 #include <string.h>
 #include <stdarg.h>
 #include <stdio.h>
-#include "tgui.h"
 
 // constants for terminal dimensions
 int W_CHARS = 170,
 	H_CHARS = 48,
 	W_CHAR = 8,
 	H_CHAR = 16;
-
-void detect_term(){
-	blank();
-	move(0, 0);
-	attr(NONE); attr(BOLD); attr(WHITE);
-	printf("\u2588");
-	attr(NONE);
-	char *pt = fbdata;
-	W_CHAR = 0;
-	while(*pt != 0) pt += 4, ++W_CHAR;
-	pt = fbdata;
-	H_CHAR = 0;
-	while(*pt != 0) pt += linel, ++H_CHAR;
-	blank();
-}
 
 // color constants
 const int NONE = 0,
