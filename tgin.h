@@ -1,3 +1,6 @@
+#ifndef TGIN_EXISTS
+#define TGIN_EXISTS
+
 // necessary headers for input/output and string ops
 #include <string.h>
 #include <stdarg.h>
@@ -92,3 +95,5 @@ ssize_t xtext_box(char **str, int x, int y, int w, const char *prompt){
 ssize_t text_box(char **str, int x, int y, int w){
 	return xtext_box(str, x, y, w, "");
 }
+
+#endif

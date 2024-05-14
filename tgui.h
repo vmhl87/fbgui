@@ -1,3 +1,6 @@
+#ifndef TGUI_EXISTS
+#define TGUI_EXISTS
+
 #include <sys/ioctl.h>
 #include <sys/mman.h>
 #include <linux/fb.h>
@@ -5,6 +8,7 @@
 #include <string.h>
 #include <fcntl.h>
 #include <time.h>
+#include "tgin.h"
 
 // global vars - framebuffer state, dimensions, mmapped loc
 int fb;
@@ -170,6 +174,31 @@ void rectl(int x, int y, int w, int h, int r, int g, int b){
 	_vline(x+w, y, y+h, r, g, b);
 }
 
+// draw character c at location (x,y) with size s and color (r,g,b)
+void schar(char c, int x, int y, int s, int r, int g, int b){
+	attr(NONE); attr(BOLD); attr(WHITE);
+	move(0, 0);
+	printf("%c", c);
+	fflush(stdout);
+	char *ptr = fbdata;
+	for(int i=0; i<H_CHAR; ++i){
+		for(int j=0; j<W_CHAR; ++j){
+			if(*ptr == -1) rect(x + j*s, y + i*s, s, s, r, g, b);
+			ptr += 4;
+		}
+		ptr += linel - W_CHAR*bytes;
+	}
+	rect(0, 0, W_CHAR, H_CHAR, 0, 0, 0);
+	attr(NONE);
+}
+
+// draw string str centered at (x,y) with size s and color (r,g,b)
+void sstr(const char *str, int x, int y, int s, int r, int g, int b){
+	int p = -strlen(str);
+	do schar(*str, x+(p*s*W_CHAR)/2, y, s, r, g, b), p += 2;
+	while(*(++str) != 0);
+}
+
 // reset framebuffer to fully black
 void blank(){
 	memset(fbdata, 0, fb_size);
@@ -180,3 +209,5 @@ void closefb(){
 	munmap(fbdata, fb_size);
 	close(fb);
 }
+
+#endif
