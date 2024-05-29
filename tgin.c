@@ -40,6 +40,20 @@ void curs_set(int s){
 	fflush(stdout);
 }
 
+// echo state
+void set_echo(int s){
+	struct termios term;
+	tcgetattr(fileno(stdin), &term);
+
+	if(s){
+		term.c_lflag |= ECHO;
+		tcsetattr(fileno(stdin), 0, &term);
+	}else{
+		term.c_lflag &= ~ECHO;
+		tcsetattr(fileno(stdin), 0, &term);
+	}
+}
+
 // move cursor
 void move(int x, int y){
 	printf("\033[%d;%dH", y, x);

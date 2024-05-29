@@ -53,6 +53,8 @@ int main(){
 	printf("hello!");
 	attr(NONE);
 
+	set_echo(0);
+
 	// draw a lot of random boxes because why not
 	srand(time(NULL));
 	int lx = 0, ly = 0;
@@ -68,6 +70,8 @@ int main(){
 		lx = x, ly = y;
 		sleepms(500);
 	}
+
+	set_echo(1);
 
 	// clear framebuffer
 	blank();
