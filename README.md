@@ -50,9 +50,9 @@ initially when experimenting I wrote everything in one file
 (`poc.c`) and without any input/output. It has some basic
 shading and drawing.
 
-I migrated the main rendering code onto `tgui.h`, and at that
+I migrated the main rendering code onto `tgui.c`, and at that
 point started tackling the issue of input/output. For that I
-created the `tgin.h` header which contains helper functions
+created the `tgin.c` file which contains helper functions
 to move around the cursor, and set color attributes, etc.
 
 # how do I use this library?
@@ -128,7 +128,7 @@ You can also clear the entire buffer with `blank()`.
 There is no way (yet?) to draw text using the framebuffer itself, but
 you can do it by repositioning the cursor and printing.
 
-`tgin.h` is responsible for these pieces of code.
+`tgin.c` is responsible for these pieces of code.
 
 
 Most importantly you can hide and show the cursor with `curs_set(b)`
@@ -142,10 +142,10 @@ You can manually reposition the cursor to an arbitrary position with
 There are wrappers for ANSI colors/attributes/etc:
 
 `attr(attribute)` where attribute is one of `BOLD`, `NONE`, `BLACK`,
-`GREEN`, etc. (find these at the top of `tgin.h`)
+`GREEN`, etc. (find these at the top of `tgin.c`)
 
 to set a background color call `attr(BG(color))` where `color` is one
-of the constants in `tgin.h`.
+of the constants in `tgin.c`.
 
 
 You can print out a centered string of text with:
@@ -156,7 +156,7 @@ or `xcenter(s)` to draw in the center of the screen.
 The coordinates are represented not in pixels but in characters.
 These are probably personalized to your device, but on my laptop there are
 `W_CHARS` chars in each row and `H_CHARS` chars in each column, and each char
-is `W_CHAR` x `H_CHAR` in dimensions. (These are also constants in `tgin.h`)
+is `W_CHAR` x `H_CHAR` in dimensions. (These are also constants in `tgin.c`)
 
 
 You can place a text box at an arbitrary location:
