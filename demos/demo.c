@@ -16,8 +16,9 @@ int bg(int x, int y){
 
 int main(){
 	// hide cursor, clear screen, open framebuffer
+	reset_tty();
 	curs_set(0);
-	system("clear");
+	set_echo(0);
 	openfb();
 
 	// shade background with gradient shader (leave margin because
@@ -28,32 +29,36 @@ int main(){
 	rect(0, 224, 72, 16, 100, 100, 180);
 
 	// draw some text because why not
-	move(0, 15);
-	// colored black with white background
-	attr(BG(WHITE)); attr(BLACK);
-	printf("12345678");
-	attr(NONE);
+	text_size(2);
+	sstr("12345678", 0, 15*H_CHAR);
+	text_size(1);
 
 	// make a text box!
-	attr(BG(WHITE)); attr(BLACK);
+	save_state();
+	text_color(120, 120, 120);
+	rect(20*W_CHAR, 10*H_CHAR, 20*W_CHAR, H_CHAR, 180, 180, 180);
+	sstr("enter stuff here", 20*W_CHAR, 10*H_CHAR);
+	text_color(0, 0, 0);
 	char *s;
-	xtext_box(&s, 20, 10, 60, "enter anything here: ");
-	attr(NONE);
+	text_box(&s, 20*W_CHAR, 10*H_CHAR, 20, 180, 180, 180);
+	reset_state();
 
 	// make another text box, and read two integers
-	attr(CYAN);
+	save_state();
+	text_color(140, 250, 250);
+	rect(60*W_CHAR, 12*H_CHAR, 10*W_CHAR, H_CHAR, 30, 30, 30);
+	sstr("coords", 60*W_CHAR, 12*H_CHAR);
+	text_color(0, 180, 180);
 	char *c;
-	xtext_box(&c, 60, 12, 20, "coords: ");
+	text_box(&c, 60*W_CHAR, 12*H_CHAR, 10, 30, 30, 30);
 	int x = 60, y = 30; sscanf(c, "%d %d", &x, &y);
-	attr(NONE);
+	reset_state();
 
 	// say "hello" at those coords entered
-	move(x, y);
-	attr(BG(CYAN)); attr(BLACK);
-	printf("hello!");
-	attr(NONE);
-
-	set_echo(0);
+	save_state();
+	text_color(0, 255, 255);
+	sstr("hello!", x*W_CHAR, y*H_CHAR);
+	reset_state();
 
 	// draw a lot of random boxes because why not
 	srand(time(NULL));
@@ -78,7 +83,7 @@ int main(){
 
 	// close framebuffer, clear screen, show cursor
 	closefb();
-	system("clear");
+	reset_tty();
 	curs_set(1);
 
 	// print out everything inputted for debug

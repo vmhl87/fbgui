@@ -72,12 +72,12 @@ void text_size(int s){
 
 // pseudo push/pop
 int sx_a = 0, sy_a = 0, st_co[3] = {255, 255, 255}, st_s = 1;
-void _save_state(){
+void save_state(){
 	sx_a = x_align, sy_a = y_align;
 	for(int i=0; i<3; ++i) st_co[i] = text_col[i];
 	st_s = text_siz;
 }
-void _reset_state(){
+void reset_state(){
 	x_align = sx_a, y_align = sy_a;
 	for(int i=0; i<3; ++i) text_col[i] = st_co[i];
 	text_siz = st_s;
