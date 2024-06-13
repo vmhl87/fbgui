@@ -1,7 +1,7 @@
 // import libraries + stdlib for random
 #include <stdlib.h>
-#include "tgui.c"
-#include "tgin.c"
+#include "../src/tgui.c"
+#include "../src/tgin.c"
 
 // dithering shader function
 int speckle(int x, int y){
