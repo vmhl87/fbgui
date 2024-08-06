@@ -2,7 +2,10 @@
 #define TBUF_EXISTS
 
 #include <termios.h>
+<<<<<<< HEAD
 #include <signal.h>
+=======
+>>>>>>> fb02cc5ce3bd8f4b35adc149cc020de28a46d6bb
 #include <unistd.h>
 #include <stdio.h>
 
@@ -16,6 +19,7 @@ void tbuf(int f){
 		new = old, new.c_lflag &= (~ICANON & ~ECHO);
 	}
 
+<<<<<<< HEAD
 	tcsetattr(STDIN_FILENO, TCSANOW, f ? &old : &new);
 }
 
@@ -35,4 +39,9 @@ void sig_start() { signal(SIGINT, sighandler), signal_status = 0; }
 int sig_now() { return signal_status == SIGINT ? 1 : 0; }
 void sig_stop() { signal(SIGINT, SIG_DFL); }
 
+=======
+	tcsetattr(STDIN_FILENO, TCSANOW, f ? &new : &old);
+}
+
+>>>>>>> fb02cc5ce3bd8f4b35adc149cc020de28a46d6bb
 #endif
